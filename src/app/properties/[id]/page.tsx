@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HubSpotCTA from '@/components/HubSpotCTA';
-import HubSpotForm from '@/components/HubSpotForm';
 import PropertyActionButtons from '@/components/PropertyActionButtons';
+import PropertyInquiryForm from '@/components/PropertyInquiryForm';
 import { getPropertyById, properties } from '@/data/properties';
 
 export async function generateStaticParams() {
@@ -172,10 +172,9 @@ export default async function PropertyDetailPage({
             </p>
             
             <div className="bg-gray-50 p-8 rounded-lg">
-              {/* HubSpot Form for Property Inquiry */}
-              <HubSpotForm 
-                portalId="YOUR_PORTAL_ID" 
-                formId="YOUR_PROPERTY_INQUIRY_FORM_ID"
+              <PropertyInquiryForm 
+                propertyTitle={property.title}
+                propertyId={property.id}
               />
             </div>
           </div>
