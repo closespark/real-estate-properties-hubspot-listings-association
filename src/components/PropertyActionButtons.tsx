@@ -5,7 +5,14 @@ export default function PropertyActionButtons() {
     const formSection = document.getElementById('property-inquiry-form');
     if (formSection) {
       formSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.warn('PropertyActionButtons: Could not find element with id "property-inquiry-form"');
     }
+  };
+
+  const handleSaveProperty = () => {
+    // Save property functionality - placeholder for future implementation
+    console.log('Save property feature coming soon');
   };
 
   return (
@@ -22,7 +29,10 @@ export default function PropertyActionButtons() {
       >
         Request Information
       </button>
-      <button className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 py-3 rounded-md font-semibold transition-colors">
+      <button 
+        onClick={handleSaveProperty}
+        className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 py-3 rounded-md font-semibold transition-colors"
+      >
         Save Property
       </button>
     </div>
