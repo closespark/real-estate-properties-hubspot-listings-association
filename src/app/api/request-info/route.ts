@@ -96,7 +96,7 @@ function validatePayload(payload: unknown): { valid: true; data: RequestInfoPayl
   if (data.marketing_opt_in !== true) {
     errors.push({ 
       field: 'marketing_opt_in', 
-      message: 'Marketing opt-in must be true. User must explicitly consent to receive marketing communications.' 
+      message: 'You must agree to receive marketing communications to submit this form.' 
     });
   }
 
@@ -183,8 +183,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
 
     // Step 2: Set marketing consent for the contact
     // We wait a brief moment to allow HubSpot to process the form submission
-    // before trying to update the contact's marketing consent
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // before trying to update the contact's marketing consent.
+    // The delay is configurable via environment variable (default: 1000ms).
+    const consentDelayMs = parseInt(process.env.HUBSPOT_CONSENT_DELAY_MS || '1000', 10);
+    if (consentDelayMs > 0) {
+      await new Promise(resolve => setTimeout(resolve, consentDelayMs));
+    }
     
     const consentResult = await setMarketingConsent(formData.email);
     

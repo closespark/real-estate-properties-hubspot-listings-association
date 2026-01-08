@@ -47,11 +47,15 @@ export interface HubSpotAssociationResult {
 // ============================================================================
 
 /**
- * Gets the HubSpot Portal ID from environment variables.
+ * Gets the HubSpot Portal ID from server-side environment variables.
  * Required for both Forms API and CRM API calls.
+ * 
+ * Note: This function only reads server-side environment variables (HUBSPOT_PORTAL_ID).
+ * The NEXT_PUBLIC_ variant is only for client-side use and is not accessed here
+ * to maintain clear separation between client and server credentials.
  */
 function getPortalId(): string {
-  const portalId = process.env.HUBSPOT_PORTAL_ID || process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
+  const portalId = process.env.HUBSPOT_PORTAL_ID;
   if (!portalId) {
     throw new Error('HUBSPOT_PORTAL_ID environment variable is not set');
   }
@@ -59,11 +63,15 @@ function getPortalId(): string {
 }
 
 /**
- * Gets the HubSpot Form GUID from environment variables.
+ * Gets the HubSpot Form GUID from server-side environment variables.
  * Required for Forms API submissions.
+ * 
+ * Note: This function only reads server-side environment variables (HUBSPOT_FORM_GUID).
+ * The NEXT_PUBLIC_ variant is only for client-side use and is not accessed here
+ * to maintain clear separation between client and server credentials.
  */
 function getFormGuid(): string {
-  const formGuid = process.env.HUBSPOT_FORM_GUID || process.env.NEXT_PUBLIC_HUBSPOT_FORM_GUID;
+  const formGuid = process.env.HUBSPOT_FORM_GUID;
   if (!formGuid) {
     throw new Error('HUBSPOT_FORM_GUID environment variable is not set');
   }
