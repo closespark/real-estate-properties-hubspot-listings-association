@@ -330,7 +330,9 @@ export async function findListingByExternalId(
 ): Promise<HubSpotListingLookupResult> {
   // Guard: Validate the external listing ID format
   // assetId should be a numeric string (e.g., "22242")
-  if (!externalListingId || externalListingId.trim() === '') {
+  const trimmedId = externalListingId?.trim() ?? '';
+  
+  if (!trimmedId) {
     console.error('findListingByExternalId called with empty external_listing_id');
     return {
       success: false,
@@ -338,8 +340,6 @@ export async function findListingByExternalId(
       notFound: false,
     };
   }
-
-  const trimmedId = externalListingId.trim();
   
   // Log the lookup attempt for debugging
   console.log(`Looking up HubSpot Listing by external_listing_id (assetId): ${trimmedId}`);
@@ -453,7 +453,10 @@ export async function associateContactToListing(
   listingId: string
 ): Promise<HubSpotAssociationResult> {
   // Guard: Validate required IDs are present
-  if (!contactId || contactId.trim() === '') {
+  const trimmedContactId = contactId?.trim() ?? '';
+  const trimmedListingId = listingId?.trim() ?? '';
+
+  if (!trimmedContactId) {
     console.error('associateContactToListing called with empty contactId');
     return {
       success: false,
@@ -461,16 +464,13 @@ export async function associateContactToListing(
     };
   }
 
-  if (!listingId || listingId.trim() === '') {
+  if (!trimmedListingId) {
     console.error('associateContactToListing called with empty listingId');
     return {
       success: false,
       error: 'listingId is required for association - resolve via findListingByExternalId first',
     };
   }
-
-  const trimmedContactId = contactId.trim();
-  const trimmedListingId = listingId.trim();
 
   // Log the association attempt for debugging
   console.log(`Creating association: Contact ${trimmedContactId} -> Listing ${trimmedListingId}`);

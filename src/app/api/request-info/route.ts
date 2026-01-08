@@ -210,7 +210,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
     if (!listingResult.success) {
       // Fail fast: Do not attempt association if Listing lookup failed
       // This prevents 500 errors from invalid association calls
-      const errorMessage = listingResult.notFound
+      const baseMessage = 'Contact created successfully, but listing not found for association';
+      const detailMessage = listingResult.notFound
         ? `Listing not found in HubSpot for external_listing_id (assetId): ${formData.external_listing_id}. Ensure the Listing exists with this ID.`
         : `Failed to look up Listing: ${listingResult.error}`;
       
@@ -223,7 +224,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
       return NextResponse.json(
         {
           success: true,
-          message: `Contact created successfully, but listing not found for association. ${errorMessage}`,
+          message: `${baseMessage}. ${detailMessage}`,
           details,
         },
         { status: 200 }
