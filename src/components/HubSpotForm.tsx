@@ -21,9 +21,8 @@ declare global {
 export default function HubSpotForm({ portalId, formId, region = 'na1' }: HubSpotFormProps) {
   const effectivePortalId = portalId || process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
   useEffect(() => {
-    // Don't load form if portal ID is not configured
-    if (!effectivePortalId) {
-      console.warn('HubSpot portal ID not configured. Set NEXT_PUBLIC_HUBSPOT_PORTAL_ID environment variable.');
+    // Don't load form if portal ID or form ID is not configured
+    if (!effectivePortalId || !formId) {
       return;
     }
 
@@ -70,7 +69,7 @@ export default function HubSpotForm({ portalId, formId, region = 'na1' }: HubSpo
     };
   }, [effectivePortalId, formId, region]);
 
-  if (!effectivePortalId) {
+  if (!effectivePortalId || !formId) {
     return (
       <div className="text-center py-8 text-gray-500">
         <p>Form not available. Please configure HubSpot integration.</p>
