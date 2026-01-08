@@ -114,20 +114,19 @@ export async function submitContactToHubSpot(
     
     // Build the HubSpot form fields array
     // The Forms API expects an array of {name, value} objects
+    // IMPORTANT: Only include fields that exist as properties on HubSpot Contacts
+    // Do NOT include external_listing_id or marketing_opt_in as these are not
+    // default Contact properties and will cause silent submission failures
     const fields = [
       { name: 'firstname', value: formData.firstname },
       { name: 'lastname', value: formData.lastname },
       { name: 'email', value: formData.email },
-      { name: 'external_listing_id', value: formData.external_listing_id },
     ];
 
     // Add optional phone field if provided
     if (formData.phone) {
       fields.push({ name: 'phone', value: formData.phone });
     }
-
-    // Add marketing opt-in as a field (HubSpot will use this for consent tracking)
-    fields.push({ name: 'marketing_opt_in', value: String(formData.marketing_opt_in) });
 
     const hubspotPayload = {
       fields,
@@ -150,16 +149,24 @@ export async function submitContactToHubSpot(
       }
     );
 
+    // Get the raw response text for debugging
+    const responseText = await response.text();
+
+    // Log the raw HubSpot response for debugging
+    console.error('HUBSPOT FORMS API RESPONSE:', {
+      status: response.status,
+      body: responseText,
+    });
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('HubSpot Forms API error:', errorData);
       return {
         success: false,
-        error: `HubSpot Forms API error: ${response.status} ${response.statusText}`,
+        error: `HubSpot Forms API error ${response.status}: ${responseText}`,
       };
     }
 
-    const result = await response.json();
+    // Parse the response as JSON
+    const result = responseText ? JSON.parse(responseText) : {};
     
     return {
       success: true,
