@@ -13,81 +13,39 @@ All forms on this site use **HubSpot's external form embed** approach, which mea
 
 ## Configuration Required
 
-To activate the HubSpot features, you need to update the following files with your HubSpot sandbox credentials:
+To activate the HubSpot features, you need to set the following environment variables in your Render dashboard or `.env.local` file for local development:
 
-### 1. Tracking Code
+### Environment Variables
 
-**File:** `src/app/layout.tsx`
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_HUBSPOT_PORTAL_ID` | Your HubSpot portal ID (Hub ID) |
+| `NEXT_PUBLIC_HUBSPOT_CONTACT_FORM_ID` | Form ID for the homepage contact form |
+| `NEXT_PUBLIC_HUBSPOT_AGENT_FORM_ID` | Form ID for the agent registration form |
+| `NEXT_PUBLIC_HUBSPOT_FINANCING_FORM_ID` | Form ID for the VA financing application form |
+| `NEXT_PUBLIC_HUBSPOT_PROPERTY_INQUIRY_FORM_ID` | Form ID for the property inquiry form |
+| `NEXT_PUBLIC_HUBSPOT_CTA_ID` | CTA ID for property detail page CTAs |
 
-Replace `YOUR_HUBSPOT_ID` with your HubSpot portal ID:
+### Local Development Setup
 
-```typescript
-<script
-  type="text/javascript"
-  id="hs-script-loader"
-  async
-  defer
-  src="//js.hs-scripts.com/YOUR_HUBSPOT_ID.js"
-></script>
+Create a `.env.local` file in the project root:
+
+```bash
+NEXT_PUBLIC_HUBSPOT_PORTAL_ID=your_portal_id
+NEXT_PUBLIC_HUBSPOT_CONTACT_FORM_ID=your_contact_form_id
+NEXT_PUBLIC_HUBSPOT_AGENT_FORM_ID=your_agent_form_id
+NEXT_PUBLIC_HUBSPOT_FINANCING_FORM_ID=your_financing_form_id
+NEXT_PUBLIC_HUBSPOT_PROPERTY_INQUIRY_FORM_ID=your_property_inquiry_form_id
+NEXT_PUBLIC_HUBSPOT_CTA_ID=your_cta_id
 ```
 
-### 2. External Forms
+### Render Deployment Setup
 
-All forms use the HubSpot Forms Embed API which submits data directly to your HubSpot sandbox.
+The environment variables are pre-configured in `render.yaml`. Set their values in the Render dashboard:
 
-**Files and Form Types:**
-- `src/app/page.tsx` - Homepage contact form (general inquiries)
-- `src/app/properties/[id]/page.tsx` - Property inquiry form
-- `src/app/agents/page.tsx` - Agent registration form
-- `src/app/financing/page.tsx` - VA Vendee financing application form
-
-Replace the placeholder values:
-
-**Homepage Contact Form:**
-```typescript
-<HubSpotForm 
-  portalId="YOUR_PORTAL_ID" 
-  formId="YOUR_FORM_ID"
-  region="na1"  // Change if using EU or other datacenter
-/>
-```
-
-**Property Inquiry Form:**
-```typescript
-<HubSpotForm 
-  portalId="YOUR_PORTAL_ID" 
-  formId="YOUR_PROPERTY_INQUIRY_FORM_ID"
-/>
-```
-
-**Agent Registration Form:**
-```typescript
-<HubSpotForm 
-  portalId="YOUR_PORTAL_ID" 
-  formId="YOUR_AGENT_REGISTRATION_FORM_ID"
-/>
-```
-
-**VA Financing Application Form:**
-```typescript
-<HubSpotForm 
-  portalId="YOUR_PORTAL_ID" 
-  formId="YOUR_VA_FINANCING_FORM_ID"
-/>
-```
-
-### 3. CTAs (Call-to-Actions)
-
-**File:** `src/app/properties/[id]/page.tsx`
-
-Replace the placeholder values in property detail pages:
-
-```typescript
-<HubSpotCTA 
-  ctaId="YOUR_CTA_ID" 
-  portalId="YOUR_PORTAL_ID"
-/>
-```
+1. Go to your Render service dashboard
+2. Navigate to **Environment** tab
+3. Add the HubSpot environment variables with your actual values
 
 ## Creating HubSpot Assets
 
@@ -107,22 +65,15 @@ Replace the placeholder values in property detail pages:
    - Select "Embed code"
    - Find the Form ID in the embed code (looks like: `formId: "abc123-def456-ghi789"`)
    - Copy the Form ID
-   - Update the corresponding page component with the Form ID
-
-5. Optional: Configure form options:
-   - Enable GDPR consent features
-   - Set up form notifications
-   - Configure thank you message or redirect
-   - Add hidden fields for tracking
+   - Set the corresponding environment variable with the Form ID
 
 ### Region Configuration
 
-If your HubSpot sandbox is in a different data center (EU, etc.), update the `region` parameter:
+If your HubSpot sandbox is in a different data center (EU, etc.), you can pass the `region` prop to the HubSpotForm component:
 
 ```typescript
 <HubSpotForm 
-  portalId="YOUR_PORTAL_ID" 
-  formId="YOUR_FORM_ID"
+  formId="your-form-id"
   region="eu1"  // or "na1" for North America (default)
 />
 ```
@@ -138,17 +89,18 @@ Available regions:
 2. Create a new CTA (e.g., "Schedule Property Tour", "Request More Info")
 3. Customize the button text, style, and behavior
 4. Copy the CTA ID from the embed code
-5. Update the HubSpotCTA component with the CTA ID
+5. Set the `NEXT_PUBLIC_HUBSPOT_CTA_ID` environment variable
 
 ### Getting Your Portal ID
 
 1. In HubSpot, click on your account name in the top right
 2. Go to Account & Billing
 3. Your Hub ID (Portal ID) is displayed at the top
+4. Set the `NEXT_PUBLIC_HUBSPOT_PORTAL_ID` environment variable
 
 ## Testing External Form Submissions
 
-After updating the configuration:
+After configuring the environment variables:
 
 1. Start the development server: `npm run dev`
 2. Open browser developer tools

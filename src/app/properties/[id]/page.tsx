@@ -166,11 +166,10 @@ export default async function PropertyDetailPage({
                   )}
                 </div>
                 
-                {/* HubSpot CTA */}
+                {/* HubSpot CTA - Uses environment variables */}
                 <div className="mb-6">
                   <HubSpotCTA 
-                    ctaId="YOUR_CTA_ID" 
-                    portalId="YOUR_PORTAL_ID"
+                    ctaId={process.env.NEXT_PUBLIC_HUBSPOT_CTA_ID || ''}
                   />
                 </div>
                 
@@ -245,10 +244,7 @@ export default async function PropertyDetailPage({
             </p>
             
             <div className="bg-gray-50 p-8 rounded-lg">
-              <PropertyInquiryForm 
-                portalId="YOUR_PORTAL_ID"
-                formId="YOUR_PROPERTY_INQUIRY_FORM_ID"
-              />
+              <PropertyInquiryForm />
             </div>
           </div>
         </section>

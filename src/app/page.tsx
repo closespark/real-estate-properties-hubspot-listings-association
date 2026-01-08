@@ -135,10 +135,9 @@ export default function Home() {
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-md">
-              {/* HubSpot Form - Replace with your actual portal ID and form ID */}
+              {/* HubSpot Form - Uses environment variables for portal ID and form ID */}
               <HubSpotForm 
-                portalId="YOUR_PORTAL_ID" 
-                formId="YOUR_FORM_ID"
+                formId={process.env.NEXT_PUBLIC_HUBSPOT_CONTACT_FORM_ID || ''}
               />
             </div>
           </div>

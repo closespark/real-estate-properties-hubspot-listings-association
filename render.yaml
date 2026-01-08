@@ -11,3 +11,16 @@ services:
         value: production
       - key: NODE_VERSION
         value: 20.11.0
+      # HubSpot Integration - Set these values in Render dashboard
+      - key: NEXT_PUBLIC_HUBSPOT_PORTAL_ID
+        sync: false
+      - key: NEXT_PUBLIC_HUBSPOT_CONTACT_FORM_ID
+        sync: false
+      - key: NEXT_PUBLIC_HUBSPOT_AGENT_FORM_ID
+        sync: false
+      - key: NEXT_PUBLIC_HUBSPOT_FINANCING_FORM_ID
+        sync: false
+      - key: NEXT_PUBLIC_HUBSPOT_PROPERTY_INQUIRY_FORM_ID
+        sync: false
+      - key: NEXT_PUBLIC_HUBSPOT_CTA_ID
+        sync: false

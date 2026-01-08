@@ -182,10 +182,9 @@ export default function FinancingPage() {
             </div>
             
             <div className="bg-gray-50 p-8 rounded-lg shadow-md">
-              {/* HubSpot VA Financing Application Form */}
+              {/* HubSpot VA Financing Application Form - Uses environment variables */}
               <HubSpotForm 
-                portalId="YOUR_PORTAL_ID" 
-                formId="YOUR_VA_FINANCING_FORM_ID"
+                formId={process.env.NEXT_PUBLIC_HUBSPOT_FINANCING_FORM_ID || ''}
               />
             </div>
 

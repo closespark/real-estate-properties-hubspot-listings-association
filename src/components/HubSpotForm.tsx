@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 interface HubSpotFormProps {
-  portalId: string;
+  portalId?: string;
   formId: string;
   region?: string;
 }
@@ -19,7 +19,14 @@ declare global {
 }
 
 export default function HubSpotForm({ portalId, formId, region = 'na1' }: HubSpotFormProps) {
+  const effectivePortalId = portalId || process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
   useEffect(() => {
+    // Don't load form if portal ID is not configured
+    if (!effectivePortalId) {
+      console.warn('HubSpot portal ID not configured. Set NEXT_PUBLIC_HUBSPOT_PORTAL_ID environment variable.');
+      return;
+    }
+
     // Load HubSpot form script
     const script = document.createElement('script');
     script.src = '//js.hsforms.net/forms/embed/v2.js';
@@ -31,7 +38,7 @@ export default function HubSpotForm({ portalId, formId, region = 'na1' }: HubSpo
       if (window.hbspt) {
         window.hbspt.forms.create({
           region: region,
-          portalId: portalId,
+          portalId: effectivePortalId,
           formId: formId,
           target: `#hubspot-form-${formId}`,
           css: '',
@@ -61,7 +68,15 @@ export default function HubSpotForm({ portalId, formId, region = 'na1' }: HubSpo
         script.parentNode.removeChild(script);
       }
     };
-  }, [portalId, formId, region]);
+  }, [effectivePortalId, formId, region]);
+
+  if (!effectivePortalId) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        <p>Form not available. Please configure HubSpot integration.</p>
+      </div>
+    );
+  }
 
   return (
     <div 
