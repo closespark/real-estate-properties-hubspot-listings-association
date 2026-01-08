@@ -41,7 +41,6 @@ To activate the HubSpot features, you need to set the following environment vari
 | `HUBSPOT_FORM_GUID` | Yes | Form GUID for contact creation |
 | `HUBSPOT_ACCESS_TOKEN` | Yes | Private App access token (keep secret!) |
 | `HUBSPOT_LISTINGS_OBJECT_TYPE` | No | Custom object type ID (default: `listings`) |
-| `HUBSPOT_CONTACT_LISTING_ASSOCIATION_TYPE` | No | Association type ID (default: `contact_to_listing`) |
 
 ### Local Development Setup
 
