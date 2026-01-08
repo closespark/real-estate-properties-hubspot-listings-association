@@ -401,25 +401,17 @@ export async function associateContactToListing(
     const accessToken = getAccessToken();
     const listingsObjectType = process.env.HUBSPOT_LISTINGS_OBJECT_TYPE || 'listings';
 
-    // Use the CRM Associations API to create the association
-    // The association type ID varies based on your HubSpot configuration
-    // We use the default association type for contact-to-custom-object
-    const associationTypeId = process.env.HUBSPOT_CONTACT_LISTING_ASSOCIATION_TYPE || 'contact_to_listing';
-
+    // Use the CRM Associations API v4 to create the association
+    // Using HubSpot's default association by omitting the body entirely.
+    // This approach is recommended for standard object associations and avoids
+    // the need to specify numeric association type IDs.
     const associationResponse = await fetch(
       `https://api.hubapi.com/crm/v4/objects/contacts/${contactId}/associations/${listingsObjectType}/${listingId}`,
       {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
         },
-        body: JSON.stringify([
-          {
-            associationCategory: 'USER_DEFINED',
-            associationTypeId: associationTypeId,
-          },
-        ]),
       }
     );
 

@@ -166,7 +166,6 @@ All HubSpot identifiers and credentials are read from environment variables:
 | `HUBSPOT_FORM_GUID` | Yes | Form GUID for contact creation |
 | `HUBSPOT_ACCESS_TOKEN` | Yes | Private App access token (server-side only) |
 | `HUBSPOT_LISTINGS_OBJECT_TYPE` | No | Custom object type ID (default: `listings`) |
-| `HUBSPOT_CONTACT_LISTING_ASSOCIATION_TYPE` | No | Association type ID (default: `contact_to_listing`) |
 
 ### Legacy Variables (Backwards Compatibility)
 
