@@ -93,10 +93,9 @@ export default function AgentsPage() {
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-md">
-              {/* HubSpot Agent Registration Form */}
+              {/* HubSpot Agent Registration Form - Uses environment variables */}
               <HubSpotForm 
-                portalId="YOUR_PORTAL_ID" 
-                formId="YOUR_AGENT_REGISTRATION_FORM_ID"
+                formId={process.env.NEXT_PUBLIC_HUBSPOT_AGENT_FORM_ID || ''}
               />
             </div>
 

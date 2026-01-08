@@ -8,9 +8,11 @@ interface PropertyInquiryFormProps {
 }
 
 export default function PropertyInquiryForm({ 
-  portalId = 'YOUR_PORTAL_ID', 
-  formId = 'YOUR_PROPERTY_INQUIRY_FORM_ID' 
+  portalId, 
+  formId 
 }: PropertyInquiryFormProps) {
+  const effectivePortalId = portalId || process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
+  const effectiveFormId = formId || process.env.NEXT_PUBLIC_HUBSPOT_PROPERTY_INQUIRY_FORM_ID;
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -32,7 +34,7 @@ export default function PropertyInquiryForm({
 
     // Submit to HubSpot Forms API
     // API endpoint: https://api.hsforms.com/submissions/v3/integration/submit/:portalId/:formId
-    const hubspotEndpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+    const hubspotEndpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${effectivePortalId}/${effectiveFormId}`;
 
     const hubspotFormData = {
       fields: [
@@ -75,6 +77,14 @@ export default function PropertyInquiryForm({
       setIsSubmitting(false);
     }
   };
+
+  if (!effectivePortalId || !effectiveFormId) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        <p>Form not available. Please configure HubSpot integration.</p>
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (

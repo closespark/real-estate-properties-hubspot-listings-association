@@ -11,17 +11,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const hubspotPortalId = process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
+  
   return (
     <html lang="en">
       <head>
         {/* HubSpot Tracking Code - Sandbox */}
-        <script
-          type="text/javascript"
-          id="hs-script-loader"
-          async
-          defer
-          src="//js.hs-scripts.com/YOUR_HUBSPOT_ID.js"
-        ></script>
+        {hubspotPortalId && (
+          <script
+            type="text/javascript"
+            id="hs-script-loader"
+            async
+            defer
+            src={`//js.hs-scripts.com/${hubspotPortalId}.js`}
+          ></script>
+        )}
       </head>
       <body className="antialiased font-sans">
         {children}
